@@ -57,4 +57,4 @@ setInterval(updateSecondHand, 1000);
 // Inicializar la posición al cargar la página
 updateSecondHand();
 
-setClock();
+window.addEventListener("DOMContentLoaded", setClock());
