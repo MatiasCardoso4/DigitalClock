@@ -1,36 +1,7 @@
 const hourDisplay = document.getElementById("hour");
 const secondHand = document.querySelector(".second-hand");
 
-function setClock() {
-  const currentTime = new Date();
-  let hour = currentTime.getHours();
-  let minutes = currentTime.getMinutes();
-  let seconds = currentTime.getSeconds();
-
-  setInterval(() => {
-    seconds++;
-
-    if (seconds > 59) {
-      seconds = 0;
-      minutes++;
-    }
-    if (minutes > 59) {
-      minutes = 0;
-      hour++;
-    }
-
-    if (hour > 23) {
-      hour = 0;
-    }
-
-    seconds = (seconds < 10 ? "0" : "") + seconds;
-    minutes = (minutes < 10 ? "0" : "") + minutes;
-    hour = (hour < 10 ? "0" : "") + hour;
-
-    const currentTime = hour + ":" + minutes + ":" + seconds;
-    hourDisplay.textContent = currentTime;
-  }, 1000);
-}
+window.addEventListener("DOMContentLoaded", setClock());
 
 function updateSecondHand() {
   const now = new Date();
@@ -55,6 +26,34 @@ function updateSecondHand() {
 setInterval(updateSecondHand, 1000);
 
 // Inicializar la posición al cargar la página
-updateSecondHand();
+function setClock() {
+  updateSecondHand();
 
-window.addEventListener("DOMContentLoaded", setClock());
+  const now = new Date();
+  const msUntilNextSecond = 1000 - now.getMilliseconds();
+  setTimeout(() => {
+    setClock();
+  }, msUntilNextSecond);
+
+  seconds++;
+
+  if (seconds > 59) {
+    seconds = 0;
+    minutes++;
+  }
+  if (minutes > 59) {
+    minutes = 0;
+    hour++;
+  }
+
+  if (hour > 23) {
+    hour = 0;
+  }
+
+  seconds = (seconds < 10 ? "0" : "") + seconds;
+  minutes = (minutes < 10 ? "0" : "") + minutes;
+  hour = (hour < 10 ? "0" : "") + hour;
+
+  const currentTime = hour + ":" + minutes + ":" + seconds;
+  hourDisplay.textContent = currentTime;
+}
